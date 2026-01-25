@@ -1,0 +1,10 @@
+<% messages.forEach((message) => { %>
+    <div>
+        <h2><%= message.user %></h2>
+        <p><%= message.text %></p>
+        <br>
+        <p>Message was added on <%= message.added %></p>
+        <br>
+        <a href="/message/<%= message.user %>"><button type="button">Details</button></a>
+    </div> 
+<% }); %>
