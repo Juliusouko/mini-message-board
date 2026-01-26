@@ -28,6 +28,12 @@ app.set("view engine", "ejs");
 app.get("/", (req, res) => {
   res.render("index", { h1: ejsH1, messages: messages });
 });
+app.get("/login", (req, res) => {
+  res.render("login", { h1: ejsH1 });
+});
+app.post("/login", (req, res) => {
+  console.log(req.body);
+});
 app.get("/message/:user", (req, res) => {
   const nameId = req.params.user.trim();
   const name = messages.find((i) => i.user === nameId);
