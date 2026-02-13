@@ -210,14 +210,13 @@ body {
 }
 
 .sign-wrapper {
-    min-height: 85vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 40px 20px;
 }
 
-/* Card */
 .sign-card {
     width: 100%;
     max-width: 420px;
@@ -238,7 +237,7 @@ body {
     font-size: 22px;
     font-weight: 600;
     letter-spacing: -0.2px;
-    margin-bottom: 24px;
+    margin-bottom: 8px;
 }
 
 .sign-header h2 {
@@ -248,24 +247,104 @@ body {
     color: #202124;
 }
 
+.sign-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.sign-form .form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.sign-form label {
+    font-size: 14px;
+    color: #5f6368;
+    margin-bottom: 6px;
+}
+
+.sign-form input {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #dadce0;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.sign-form input:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+}
+
+.btn-primary {
+    padding: 12px;
+    border-radius: 20px;
+    border: none;
+    background: #1a73e8;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.25s ease;
+}
+
+.btn-primary:hover {
+    background: #1765cc;
+    box-shadow: 0 2px 10px rgba(26, 115, 232, 0.3);
+}
+
+.alternative-login {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.alternative-login span {
+    font-size: 14px;
+    color: #5f6368;
+}
+
+/* Telegram container */
 .telegram-login-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
 }
 
-.sigin-footer {
+/* Footer */
+.sign-footer {
     font-size: 12px;
     color: #5f6368;
-    line-height: 1.6;
+    margin-top: 32px;
 }
 
-.sigin-footer a {
+.sign-footer a {
     color: #1a73e8;
     text-decoration: none;
     font-weight: 500;
 }
 
-.sigin-footer a:hover {
+.sign-footer a:hover {
     text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .sign-card {
+        padding: 36px 24px;
+        border-radius: 20px;
+    }
+
+    .sign-header h2 {
+        font-size: 24px;
+    }
+
+    .btn-primary {
+        font-size: 14px;
+    }
 }
