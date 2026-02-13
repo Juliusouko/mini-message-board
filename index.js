@@ -13,6 +13,10 @@ const PORT = 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const assetsPath = path.join(__dirname, "public");
+app.use(express.static(assetsPath));
+app.set("views", path.join(__dirname, "views"));
+
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -93,11 +97,57 @@ function authenticateUser(req, res, next) {
 
 // Routes
 
+// root
+app.get("/", (req, res) => {
+  res.render("index", {
+    pageTitle: "Aswito INC",
+    description:
+      "This is aswito.com an upcoming website being developed in Kenya",
+    siteName: "Aswito INC",
+    article: {
+      title: "This is the first blog on Aswito INC",
+      date: "Jan 15, 2026",
+      readTime: 8,
+      author: {
+        name: "Julius Ouko",
+        avatar: "public/resources/julius_ouko.jpg",
+      },
+      content: [
+        {
+          type: "paragraph",
+          text: "Whatever you're seeing took time and love for the game to accomplish.",
+        },
+        { type: "heading", text: "First feature: Sweet Blogs" },
+        { type: "code", text: "fn new_website(rust) {}" },
+        { type: "heading", text: "To our user make sure you enjoy" },
+        {
+          type: "paragraph",
+          text: "Life is short enjoy but do happy siiieet!",
+        },
+        { type: "heading", text: "What is aswito all about" },
+        { type: "paragraph", text: "This is a website for happy people, FYI." },
+      ],
+    },
+
+    sidebarPosts: [
+      { title: "Check Dr.Sweet ..", slug: "check-dr-sweet" },
+      { title: "Why am I broke?", slug: "why-am-i-broke" },
+      { title: "A date with Ruto", slug: "a-date-with-ruto" },
+      { title: "Kenya ni landmawe", slug: "kenya-ni-landmawe" },
+      { title: "Siasa mbaya uchumi poa", slug: "siasa-mbaya-uchumi-poa" },
+      { title: "Weka pesa kwenye bank💰", slug: "weka-pesa-kwenye-bank" },
+    ],
+  });
+});
+
 // Login page
-app.get("/login", (req, res) => {
-  res.render("login", {
+app.get("/sign_in", (req, res) => {
+  res.render("sign_in", {
     appName: "Aswito App",
     botUsername: process.env.TELEGRAM_BOT_USERNAME,
+    pageTitle: "Sign In",
+    description: "This is a login page to aunthenticate yourself as a real human.",
+    siteName: "Aswito INC",
   });
 });
 
@@ -223,14 +273,6 @@ app.get("/data", async (req, res) => {
     console.error("Database query failed:", err);
     res.status(500).json({ success: false, message: "Failed to fetch data" });
   }
-});
-
-// Health check
-app.get("/", (req, res) => {
-  res.json({
-    message: "API is running",
-    timestamp: new Date().toISOString(),
-  });
 });
 
 // For Vercel serverless

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        <%= pageTitle %>
+    </title>
+    <meta name="description" content="<%= description %>" />
+    <meta property="og:locale" content="en_KE" />
+
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>
+            <%= siteName %>
+        </h1>
+
+        <nav>
+            <a href="/how-tos"><button class="btn-navbar">How to's</button></a>
+            <a href="/about"><button class="btn-navbar">About</button></a>
+            <a href="/dashboard"><button class="btn-navbar">Account</button></a>
+            <a href="/login"><button class="btn-navbar">Login</button></a>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Article -->
+        <article class="article">
+            <h1>
+                <%= article.title %>
+            </h1>
+
+            <div class="meta">
+                <div class="author-avatar">
+                    <img src="/resources/julius_ouko.jpg" alt="<%= article.author.name %>">
+                </div>
+
+                <span>By <%= article.author.name %></span>
+                <span>• <%= article.date %></span>
+                <span>• <%= article.readTime %> min read</span>
+            </div>
+
+            <% article.content.forEach(section=> { %>
+
+                <% if (section.type==="paragraph" ) { %>
+                    <p>
+                        <%= section.text %>
+                    </p>
+                    <% } %>
+
+                        <% if (section.type==="heading" ) { %>
+                            <h2>
+                                <%= section.text %>
+                            </h2>
+                            <% } %>
+
+                                <% if (section.type==="code" ) { %>
+                                    <pre><code><%= section.text %></code></pre>
+                                    <% } %>
+
+                                        <% }) %>
+
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="toc">
+                <h2>What you missed</h2>
+                <h3>This week:</h3>
+
+                <% sidebarPosts.forEach(post=> { %>
+                    <a href="/post/<%= post.slug %>">
+                        <%= post.title %>
+                    </a>
+                    <% }) %>
+
+            </div>
+
+            <div class="newsletter">
+                <h4>Stay updated</h4>
+                <form action="/subscribe" method="POST">
+                    <input type="email" name="email" placeholder="Your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        © <%= new Date().getFullYear() %>
+        <%= siteName %> — Clean minimal publishing.
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
