@@ -348,3 +348,18 @@ body {
         font-size: 14px;
     }
 }
+
+.welcome-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.welcome-message {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    margin: 7% 0;
+}

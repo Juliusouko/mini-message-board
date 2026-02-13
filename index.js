@@ -97,8 +97,16 @@ function authenticateUser(req, res, next) {
 
 // Routes
 
-// root
+// welcome
 app.get("/", (req, res) => {
+  res.render("welcome", {
+    siteName: "Aswito INC",
+    pageTitle: "Welcome",
+    description: "Welcome to aswito.com this is where you belong"
+  });
+});
+// root
+app.get("/blog", (req, res) => {
   res.render("index", {
     pageTitle: "Aswito INC",
     description:
@@ -151,8 +159,7 @@ app.get("/sign_in", (req, res) => {
   });
 });
 
-// Auth endpoint
-app.post("/create", async (req, res) => {
+app.post("/sign_in", async (req, res) => {
   const client = await pool.connect();
 
   try {
@@ -168,7 +175,6 @@ app.post("/create", async (req, res) => {
     const { id, first_name, last_name, username } = data;
 
     await client.query("BEGIN");
-
     // Check existing user
     const existingAuth = await client.query(
       `SELECT users.*
@@ -178,16 +184,12 @@ app.post("/create", async (req, res) => {
        AND provider_user_id = $1`,
       [id],
     );
-
     let user;
-
     if (existingAuth.rows.length > 0) {
       await client.query("COMMIT");
       user = existingAuth.rows[0];
-
       // Generate JWT token
       const token = generateToken(user.id);
-
       return res.json({
         success: true,
         user,
@@ -195,7 +197,6 @@ app.post("/create", async (req, res) => {
         isNewUser: false,
       });
     }
-
     // Create new user
     const newUser = await client.query(
       `INSERT INTO users (first_name, last_name, username)
@@ -203,21 +204,16 @@ app.post("/create", async (req, res) => {
        RETURNING *`,
       [first_name, last_name || null, username || null],
     );
-
     const userId = newUser.rows[0].id;
-
     // Create auth provider
     await client.query(
       `INSERT INTO auth_providers (user_id, provider, provider_user_id)
        VALUES ($1, 'telegram', $2)`,
       [userId, id],
     );
-
     await client.query("COMMIT");
-
     user = newUser.rows[0];
     const token = generateToken(user.id);
-
     return res.json({
       success: true,
       user,
@@ -243,26 +239,6 @@ app.post("/create", async (req, res) => {
     client.release();
   }
 });
-
-// Dashboard (protected)
-app.get("/dashboard", authenticateUser, async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM users WHERE id = $1", [
-      req.userId,
-    ]);
-
-    if (result.rows.length === 0) {
-      return res.redirect("/login");
-    }
-
-    res.render("dashboard", { user: result.rows[0] });
-  } catch (error) {
-    console.error("Dashboard error:", error);
-    res.status(500).send("Server error");
-  }
-});
-
-// Get all users (for testing - remove in production or add auth)
 app.get("/data", async (req, res) => {
   try {
     const result = await pool.query(
@@ -277,8 +253,7 @@ app.get("/data", async (req, res) => {
 
 // For Vercel serverless
 export default app;
-
-// For local development
+// dev
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`App running on http://localhost:${PORT}`);

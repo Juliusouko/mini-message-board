@@ -1,0 +1,67 @@
+<!-- Main Container -->
+<div class="container">
+
+    <!-- Article -->
+    <article class="article">
+        <h1>
+            <%= article.title %>
+        </h1>
+
+        <div class="meta">
+            <div class="author-avatar">
+                <img src="/resources/julius_ouko.jpg" alt="<%= article.author.name %>">
+            </div>
+
+            <span>By <%= article.author.name %></span>
+            <span>• <%= article.date %></span>
+            <span>• <%= article.readTime %> min read</span>
+        </div>
+
+        <% article.content.forEach(section=> { %>
+
+            <% if (section.type==="paragraph" ) { %>
+                <p>
+                    <%= section.text %>
+                </p>
+                <% } %>
+
+                    <% if (section.type==="heading" ) { %>
+                        <h2>
+                            <%= section.text %>
+                        </h2>
+                        <% } %>
+
+                            <% if (section.type==="code" ) { %>
+                                <pre><code><%= section.text %></code></pre>
+                                <% } %>
+
+                                    <% }) %>
+
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="toc">
+            <h2>What you missed</h2>
+            <h3>This week:</h3>
+
+            <% sidebarPosts.forEach(post=> { %>
+                <a href="/post/<%= post.slug %>">
+                    <%= post.title %>
+                </a>
+                <% }) %>
+
+        </div>
+
+        <div class="newsletter">
+            <h4>Stay updated</h4>
+            <form action="/subscribe" method="POST">
+                <input type="email" name="email" placeholder="Your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+
+    </aside>
+
+</div>
