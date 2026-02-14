@@ -1,6 +1,7 @@
 import express from "express";
 import crypto from "crypto";
 import cors from "cors";
+import { Resend } from "resend";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
@@ -10,6 +11,7 @@ import jwt from "jsonwebtoken"; // Add this: npm install jsonwebtoken
 dotenv.config();
 const app = express();
 const PORT = 3000;
+const resend = new Resend(process.env.RESEND_API_KEY);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -96,6 +98,31 @@ function authenticateUser(req, res, next) {
 }
 
 // Routes
+
+app.post("/subscribe", async (req, res) => {
+  const { email } = req.body;
+  console.log(email)
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
+  try {
+    await resend.emails.send({
+      from: "no-reply@aswito.com",
+      to: "aswitocom@gmail.com",
+      subject: "New Newsletter Subscriber",
+      text: `New subscriber: ${email}`,
+    });
+
+    res.json({ message: "Subscription successful!" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong." });
+  }
+});
+
 
 // welcome
 app.get("/", (req, res) => {
