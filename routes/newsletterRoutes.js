@@ -1,8 +1,8 @@
 import express from "express";
 import subscribe from "../controllers/newsLetterController.js";
 
-const router = express();
+const router = express.Router();
 
-router.post('/subscribe', subscribe);
+router.post('/', subscribe);
 
-export { router };  
+export { router };
