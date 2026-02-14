@@ -109,8 +109,8 @@ app.post("/subscribe", async (req, res) => {
 
   try {
     await resend.emails.send({
-      from: "no-reply@aswito.com",
-      to: "aswitocom@gmail.com",
+      from: process.env.MESSAGE_FROM,
+      to: process.env.MESSAGE_TO,
       subject: "New Newsletter Subscriber",
       text: `New subscriber: ${email}`,
     });
