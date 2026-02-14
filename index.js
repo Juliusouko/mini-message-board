@@ -10,7 +10,7 @@ dotenv.config();
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.FRONTED_URL,
+    origin: process.env.FRONTEND_URL,
     optionsSuccessStatus: 200,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
