@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { router } from "./routes/newsletterRoutes.js";
 
 const app = express();
@@ -7,6 +8,16 @@ const app = express();
 // middleware
 dotenv.config();
 app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.FRONTED_URL,
+    optionsSuccessStatus: 200,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Authorization"],
+    credentials: true,
+  }),
+);
 
 // mount routes
 app.use('/subscribe', router);
