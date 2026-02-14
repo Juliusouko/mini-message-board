@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import router from "./routes/newsletterRoutes.js"
+import { router } from "./routes/newsletterRoutes.js"
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.use(
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["Authorization"],
-    credentials: true,
+    // credentials: true, set for cookies
   }),
 );
 
